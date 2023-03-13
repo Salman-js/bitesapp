@@ -9,6 +9,7 @@ import {
 import React, { useEffect, useRef, useState } from 'react';
 import Feather from 'react-native-vector-icons/Feather';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import tw from 'twrnc';
 import { IconButton, Pressable } from '@react-native-material/core';
 import { Searchbar } from 'react-native-paper';
@@ -84,20 +85,51 @@ const HomeScreen = ({ navigation }) => {
   const [activeSlide, setActiveSlide] = useState(0);
   return (
     <View className='pt-14 bg-white h-full px-2'>
-      <View className='w-full flex flex-row pb-2'>
+      <View className='w-full flex flex-row justify-between px-1 mb-1'>
+        <Pressable style={tw.style('p-1 flex flex-row my-auto')}>
+          <Icon
+            name='map-marker-outline'
+            size={25}
+            color='#ddba20'
+            style={tw.style('my-auto mr-2')}
+          />
+          <View>
+            <Text className='font-extralight text-xs text-black mb-3 my-auto'>
+              Destination
+            </Text>
+            <Text className='text-sm text-black mb-3 my-auto'>
+              Current location
+            </Text>
+          </View>
+          <Feather
+            name='chevron-down'
+            size={20}
+            style={tw.style('ml-1 my-auto')}
+            color='#939191'
+          />
+        </Pressable>
         <IconButton
-          icon={(props) => <Feather name='menu' {...props} size={35} />}
+          icon={(props) => (
+            <Feather name='user' {...props} size={35} color='#ddba20' />
+          )}
         />
+      </View>
+      <View className='w-full flex flex-row pb-2'>
         <Searchbar
           placeholder='Search'
-          style={tw.style('rounded-xl h-12 bg-gray-100 ml-2', {
+          style={tw.style('rounded-xl bg-gray-100 ml-2 my-auto', {
             width: '85%',
           })}
-          inputStyle={tw.style('text-black')}
+          inputStyle={tw.style('text-black my-auto')}
           placeholderTextColor='black'
           iconColor='black'
-          // onSubmitEditing={() => navigation.navigate('Search')}
+          onSubmitEditing={() => navigation.navigate('Search')}
           elevation={false}
+        />
+        <IconButton
+          icon={(props) => (
+            <Icon name='tune-variant' {...props} size={35} color='#ddba20' />
+          )}
         />
       </View>
       <View className='w-full'>
@@ -107,13 +139,13 @@ const HomeScreen = ({ navigation }) => {
               fontWeight: '900',
             })}
           >
-            Featured This Week:
+            Tasty offers:
           </Text>
           <Carousel
             data={products}
             renderItem={renderBanner}
             width={windowWidth - 10}
-            height={windowWidth / 2 - 20}
+            height={windowWidth / 2 - 40}
             itemWidth={300}
             loop
             autoplay
