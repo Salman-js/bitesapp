@@ -96,7 +96,7 @@ const HomeScreen = ({ navigation }) => {
           inputStyle={tw.style('text-black')}
           placeholderTextColor='black'
           iconColor='black'
-          onSubmitEditing={() => navigation.navigate('Search')}
+          // onSubmitEditing={() => navigation.navigate('Search')}
           elevation={false}
         />
       </View>
