@@ -1,20 +1,25 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import tw from 'twrnc';
+import { Provider as PaperProvider } from 'react-native-paper';
+import AuthStack from './src/Screens/authStack';
+import 'react-native-gesture-handler';
+import { ToastProvider } from 'react-native-toast-notifications';
+import { StatusBar } from 'react-native';
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer style={tw`bg-white`}>
+      <PaperProvider>
+        <ToastProvider>
+          <AuthStack />
+        </ToastProvider>
+      </PaperProvider>
+      <StatusBar
+        animated={true}
+        translucent
+        backgroundColor='transparent'
+        barStyle='dark-content'
+      />
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
