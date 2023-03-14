@@ -15,7 +15,7 @@ const RestaurantItem = ({ restaurant }) => {
       <Pressable style={tw.style('w-full h-full')}>
         <Image
           source={{
-            uri: 'https://nonprofitquarterly.org/wp-content/uploads/2019/11/chick-fil-a-night.jpg',
+            uri: restaurant.image,
           }}
           style={tw.style('w-full', {
             height: '58%',
@@ -36,7 +36,9 @@ const RestaurantItem = ({ restaurant }) => {
             </Text>
           </View>
           <Text className='font-light text-sm text-amber-500 mt-1'>
-            {String(restaurant.dishes)}
+            {restaurant.dishes.map((dish) => {
+              return dish.name + ', ';
+            })}
           </Text>
         </View>
       </Pressable>

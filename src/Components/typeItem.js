@@ -7,8 +7,10 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import tw from 'twrnc';
 import { IconButton, Pressable } from '@react-native-material/core';
 import RestaurantItem from './restaurantItem';
+import LoadingRestaurantItem from './loadingRestaurantItem';
 
-const TypeItem = ({ title, desc, restaurants }) => {
+const TypeItem = ({ title, desc, restaurants, loading }) => {
+  const loadingArray = ['', '', '', ''];
   return (
     <View className='w-full pl-2 h-72'>
       <View className='w-full flex flex-row justify-between mb-3'>
@@ -30,9 +32,13 @@ const TypeItem = ({ title, desc, restaurants }) => {
         showsHorizontalScrollIndicator={false}
         className='w-full py-2'
       >
-        {restaurants.map((restaurant, index) => (
-          <RestaurantItem restaurant={restaurant} key={index} />
-        ))}
+        {loading
+          ? [...Array(5).keys()].map((restaurant, index) => (
+              <LoadingRestaurantItem key={index} />
+            ))
+          : restaurants.map((restaurant, index) => (
+              <RestaurantItem restaurant={restaurant} key={index} />
+            ))}
       </ScrollView>
     </View>
   );

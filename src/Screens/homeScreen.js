@@ -15,6 +15,7 @@ import { Searchbar } from 'react-native-paper';
 import BannerSlider from '../Components/bannerSlider';
 import Carousel from 'react-native-reanimated-carousel';
 import TypeItem from '../Components/typeItem';
+import axios from 'axios';
 
 export const windowWidth = Dimensions.get('window').width;
 export const windowHeight = Dimensions.get('window').height;
@@ -25,40 +26,8 @@ const renderBanner = ({ item }) => {
 
 const HomeScreen = ({ navigation }) => {
   const scrollView = useRef(null);
-  const restaurants = [
-    {
-      name: 'Chik fil A',
-      rating: 9.3,
-      dishes: ['Chicken, burger, wrap'],
-      genre: 'Mexican',
-      banner:
-        'https://nonprofitquarterly.org/wp-content/uploads/2019/11/chick-fil-a-night.jpg',
-    },
-    {
-      name: 'Chik fil A',
-      rating: 9.3,
-      dishes: ['Chicken, burger, wrap'],
-      genre: 'Habeshan',
-      banner:
-        'https://nonprofitquarterly.org/wp-content/uploads/2019/11/chick-fil-a-night.jpg',
-    },
-    {
-      name: 'Chik fil A',
-      rating: 9.3,
-      dishes: ['Chicken, burger, wrap'],
-      genre: 'Shawarma',
-      banner:
-        'https://nonprofitquarterly.org/wp-content/uploads/2019/11/chick-fil-a-night.jpg',
-    },
-    {
-      name: 'Chik fil A',
-      rating: 9.3,
-      dishes: ['Chicken, burger, wrap'],
-      genre: 'Chicken',
-      banner:
-        'https://nonprofitquarterly.org/wp-content/uploads/2019/11/chick-fil-a-night.jpg',
-    },
-  ];
+  const [loading, setLoading] = useState(false);
+  const [restaurants, setRestaurants] = useState([]);
   const categories = [
     {
       name: 'Burger',
@@ -105,7 +74,24 @@ const HomeScreen = ({ navigation }) => {
     });
     return navigation.removeListener(scrollToTop);
   }, []);
-  const [activeSlide, setActiveSlide] = useState(0);
+  async function getRestaurants() {
+    setLoading(true);
+    axios
+      .get('https://e76d-196-191-52-13.eu.ngrok.io/restaurants', {
+        params: { _sort: 'id' },
+      })
+      .then((res) => {
+        setRestaurants(res.data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.log('error');
+        setLoading(false);
+      });
+  }
+  useEffect(() => {
+    getRestaurants();
+  }, []);
   return (
     <View className='pt-14 pb-28 bg-white h-full px-2'>
       <View className='w-full flex flex-row justify-between px-1 mb-1'>
@@ -199,16 +185,19 @@ const HomeScreen = ({ navigation }) => {
             title='Offers near you'
             desc='Delicious cuisines in your area'
             restaurants={restaurants}
+            loading={loading}
           />
           <TypeItem
             title='Featured'
             desc='Restaurants with good reviews'
             restaurants={restaurants}
+            loading={loading}
           />
           <TypeItem
             title='Tasty discounts'
             desc='Restaurants with good reviews'
             restaurants={restaurants}
+            loading={loading}
           />
         </ScrollView>
       </View>
