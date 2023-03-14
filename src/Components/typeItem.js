@@ -1,16 +1,11 @@
 import { View, Text, ScrollView } from 'react-native';
-import React from 'react';
-import Feather from 'react-native-vector-icons/Feather';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import tw from 'twrnc';
-import { IconButton, Pressable } from '@react-native-material/core';
+import { IconButton } from '@react-native-material/core';
 import RestaurantItem from './restaurantItem';
 import LoadingRestaurantItem from './loadingRestaurantItem';
 
 const TypeItem = ({ title, desc, restaurants, loading }) => {
-  const loadingArray = ['', '', '', ''];
   return (
     <View className='w-full pl-2 h-72'>
       <View className='w-full flex flex-row justify-between mb-3'>

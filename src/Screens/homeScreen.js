@@ -28,6 +28,8 @@ const HomeScreen = ({ navigation }) => {
   const scrollView = useRef(null);
   const [loading, setLoading] = useState(false);
   const [restaurants, setRestaurants] = useState([]);
+  const [featuredLoading, setFeaturedLoading] = useState(false);
+  const [featuredRestaurants, setFeaturedRestaurants] = useState([]);
   const categories = [
     {
       name: 'Burger',
@@ -78,7 +80,7 @@ const HomeScreen = ({ navigation }) => {
     setLoading(true);
     axios
       .get('https://e76d-196-191-52-13.eu.ngrok.io/restaurants', {
-        params: { _sort: 'id' },
+        params: { _sort: 'name' },
       })
       .then((res) => {
         setRestaurants(res.data);
@@ -89,8 +91,23 @@ const HomeScreen = ({ navigation }) => {
         setLoading(false);
       });
   }
+  async function getFeaturedRestaurants() {
+    setFeaturedLoading(true);
+    axios
+      .get('https://e76d-196-191-52-13.eu.ngrok.io/restaurants?type=featured', {
+        params: { _sort: 'id' },
+      })
+      .then((res) => {
+        setFeaturedRestaurants(res.data);
+        setFeaturedLoading(false);
+      })
+      .catch((err) => {
+        setFeaturedLoading(false);
+      });
+  }
   useEffect(() => {
     getRestaurants();
+    getFeaturedRestaurants();
   }, []);
   return (
     <View className='pt-14 pb-28 bg-white h-full px-2'>
@@ -182,20 +199,20 @@ const HomeScreen = ({ navigation }) => {
             </ScrollView>
           </View>
           <TypeItem
-            title='Offers near you'
-            desc='Delicious cuisines in your area'
-            restaurants={restaurants}
-            loading={loading}
-          />
-          <TypeItem
             title='Featured'
-            desc='Restaurants with good reviews'
-            restaurants={restaurants}
-            loading={loading}
+            desc='Paid placements from our partners'
+            restaurants={featuredRestaurants}
+            loading={featuredLoading}
           />
           <TypeItem
             title='Tasty discounts'
-            desc='Restaurants with good reviews'
+            desc='Restaurants with special offers'
+            restaurants={restaurants}
+            loading={loading}
+          />
+          <TypeItem
+            title='Offers near you'
+            desc='Delicious cuisines in your area'
             restaurants={restaurants}
             loading={loading}
           />

@@ -9,7 +9,7 @@ import { Pressable, Surface } from '@react-native-material/core';
 const RestaurantItem = ({ restaurant }) => {
   return (
     <Surface
-      style={tw.style('w-60 h-48 rounded-xl overflow-hidden ml-2')}
+      style={tw.style('w-60 h-48 rounded-xl overflow-hidden mx-1')}
       elevation={5}
     >
       <Pressable style={tw.style('w-full h-full')}>
@@ -36,9 +36,7 @@ const RestaurantItem = ({ restaurant }) => {
             </Text>
           </View>
           <Text className='font-light text-sm text-amber-500 mt-1'>
-            {restaurant.dishes.map((dish) => {
-              return dish.name + ', ';
-            })}
+            {restaurant.address}
           </Text>
         </View>
       </Pressable>
