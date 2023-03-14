@@ -5,6 +5,7 @@ import {
   TransitionPresets,
 } from '@react-navigation/stack';
 import HomeScreen from './homeScreen';
+import RestaurantScreen from './restaurantScreen';
 
 const Stack = createStackNavigator();
 export default function AuthStack({ navigation }) {
@@ -17,6 +18,11 @@ export default function AuthStack({ navigation }) {
       <Stack.Screen
         name='Home'
         component={HomeScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name='Restaurant'
+        component={RestaurantScreen}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>

@@ -87,7 +87,7 @@ const HomeScreen = ({ navigation }) => {
         setLoading(false);
       })
       .catch((err) => {
-        console.log('error');
+        console.log(err);
         setLoading(false);
       });
   }
@@ -102,6 +102,7 @@ const HomeScreen = ({ navigation }) => {
         setFeaturedLoading(false);
       })
       .catch((err) => {
+        console.log(err);
         setFeaturedLoading(false);
       });
   }

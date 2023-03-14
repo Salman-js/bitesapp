@@ -1,18 +1,23 @@
 import { View, Text, Image } from 'react-native';
 import React from 'react';
-import Feather from 'react-native-vector-icons/Feather';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import tw from 'twrnc';
 import { Pressable, Surface } from '@react-native-material/core';
+import { useNavigation } from '@react-navigation/native';
 
 const RestaurantItem = ({ restaurant }) => {
+  const navigation = useNavigation();
   return (
     <Surface
-      style={tw.style('w-60 h-48 rounded-xl overflow-hidden mx-1')}
+      style={tw.style('w-60 h-48 rounded-lg overflow-hidden mx-1')}
       elevation={5}
     >
-      <Pressable style={tw.style('w-full h-full')}>
+      <Pressable
+        style={tw.style('w-full h-full')}
+        onPress={() => navigation.navigate('Restaurant')}
+      >
         <Image
           source={{
             uri: restaurant.image,
@@ -35,9 +40,17 @@ const RestaurantItem = ({ restaurant }) => {
               {restaurant.genre}
             </Text>
           </View>
-          <Text className='font-light text-sm text-amber-500 mt-1'>
-            {restaurant.address}
-          </Text>
+          <View className='flex flex-row mt-1'>
+            <Ionicons
+              name='location-sharp'
+              size={20}
+              color='#f59e0b'
+              style={tw.style('')}
+            />
+            <Text className='font-light text-sm text-amber-500 ml-1 my-auto'>
+              {restaurant.address}
+            </Text>
+          </View>
         </View>
       </Pressable>
     </Surface>

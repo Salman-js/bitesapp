@@ -28,7 +28,7 @@ const TypeItem = ({ title, desc, restaurants, loading }) => {
         className='w-full py-2'
       >
         {loading
-          ? [...Array(5).keys()].map((restaurant, index) => (
+          ? [...Array(3).keys()].map((restaurant, index) => (
               <LoadingRestaurantItem key={index} />
             ))
           : restaurants.map((restaurant, index) => (
