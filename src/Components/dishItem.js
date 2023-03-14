@@ -4,7 +4,7 @@ import tw from 'twrnc';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { IconButton } from '@react-native-material/core';
 
-const DishItem = () => {
+const DishItem = ({ dish }) => {
   const [newItem, setNewItem] = useState({
     amount: 0,
   });
@@ -17,22 +17,24 @@ const DishItem = () => {
           })}
         >
           <Text className='text-xl text-black font-light break-words'>
-            Dish Name
+            {dish.name}
           </Text>
           <Text className='text-sm text-gray-500 font-light break-words'>
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Facilis
-            provident aspernatur nam modi saepe dolore aliquid,
+            {dish.description}
           </Text>
         </View>
         <Image
           source={{
-            uri: 'https://restaurantclicks.com/wp-content/uploads/2022/03/Hooters-Closing.jpg',
+            uri: dish.image,
           }}
           style={tw.style('w-1/5 h-16 rounded-md my-auto')}
         />
       </View>
-      <View className='w-32'>
+      <View className='w-full flex flex-row justify-between'>
         <ItemCounter newItem={newItem} setNewItem={setNewItem} />
+        <Text className='text-xl font-extrabold text-black my-auto'>
+          {dish.price} ETB
+        </Text>
       </View>
     </View>
   );

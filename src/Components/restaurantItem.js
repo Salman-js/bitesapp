@@ -16,7 +16,11 @@ const RestaurantItem = ({ restaurant }) => {
     >
       <Pressable
         style={tw.style('w-full h-full')}
-        onPress={() => navigation.navigate('Restaurant')}
+        onPress={() =>
+          navigation.navigate('Restaurant', {
+            restaurantPassed: restaurant,
+          })
+        }
       >
         <Image
           source={{

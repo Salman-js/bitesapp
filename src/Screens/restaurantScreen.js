@@ -1,5 +1,5 @@
 import { View, Text, Image } from 'react-native';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Button, IconButton } from '@react-native-material/core';
 import Icon from '@expo/vector-icons/Feather';
 import Material from '@expo/vector-icons/MaterialCommunityIcons';
@@ -12,8 +12,35 @@ import { Pressable } from 'react-native';
 import { ScrollView } from 'react-native';
 import { StatusBar } from 'react-native';
 import DishItem from '../Components/dishItem';
+import axios from 'axios';
+import LoadingDishItem from '../Components/loadingDishItem';
+import { useNavigation } from '@react-navigation/native';
 
-const RestaurantScreen = ({ navigation, restaurant }) => {
+const RestaurantScreen = ({ route }) => {
+  const navigation = useNavigation();
+  const { restaurantPassed } = route.params;
+  const [order, setOrder] = useState({
+    items: [],
+    totalPrice: 0,
+  });
+  const [restaurant, setRestaurant] = useState(null);
+  const [loading, setLoading] = useState(false);
+  async function getRestaurant(id) {
+    setLoading(true);
+    axios
+      .get(`https://e76d-196-191-52-13.eu.ngrok.io/restaurants?id=${id}`)
+      .then((res) => {
+        setRestaurant(res.data[0]);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        setLoading(false);
+      });
+  }
+  useEffect(() => {
+    getRestaurant(restaurantPassed.id);
+  }, []);
   return (
     <View className='h-full items-center'>
       <StatusBar
@@ -25,7 +52,7 @@ const RestaurantScreen = ({ navigation, restaurant }) => {
       <ScrollView className='w-full h-full'>
         <Image
           source={{
-            uri: 'https://restaurantclicks.com/wp-content/uploads/2022/03/Hooters-Closing.jpg',
+            uri: restaurantPassed.image,
           }}
           style={tw.style('w-full h-64')}
         />
@@ -38,14 +65,16 @@ const RestaurantScreen = ({ navigation, restaurant }) => {
                 width: '80%',
               }}
             >
-              Restaurant name
+              {restaurantPassed.name}
             </Text>
             <View className='flex flex-row mt-2 items-center'>
               <AntDesign name='star' color='#f59e0b' size={25} />
-              <Text className='text-amber-500 font-bold text-lg ml-1'>9.6</Text>
+              <Text className='text-amber-500 font-bold text-lg ml-1'>
+                {restaurantPassed.rating}
+              </Text>
               <Text className='text-amber-500 font-bold text-lg ml-2'>.</Text>
               <Text className='text-amber-500 font-bold text-base ml-2 my-auto'>
-                Mexican
+                {restaurantPassed.genre}
               </Text>
               <Text className='text-amber-500 font-bold text-lg ml-2'>.</Text>
               <Ionicons
@@ -55,12 +84,11 @@ const RestaurantScreen = ({ navigation, restaurant }) => {
                 style={tw.style('ml-2')}
               />
               <Text className='text-amber-500 font-bold text-base ml-1 my-auto'>
-                Address
+                {restaurantPassed.address}
               </Text>
             </View>
             <Text className='text-base text-gray-500 break-words text-left mt-3'>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem
-              minima illo ullam sit.
+              {restaurantPassed.description}
             </Text>
           </View>
           <List.Item
@@ -83,9 +111,15 @@ const RestaurantScreen = ({ navigation, restaurant }) => {
             </Text>
           </View>
           <View className='w-full px-4 mt-4 bg-white pb-28'>
-            <DishItem />
-            <DishItem />
-            <DishItem />
+            {loading
+              ? [...Array(3).keys()].map((dish, index) => (
+                  <LoadingDishItem key={index} />
+                ))
+              : restaurant &&
+                Object.keys(restaurant) &&
+                restaurant.dishes.map((dish, index) => (
+                  <DishItem key={index} dish={dish} />
+                ))}
           </View>
         </View>
       </ScrollView>
@@ -104,23 +138,24 @@ const RestaurantScreen = ({ navigation, restaurant }) => {
       </View>
       <View className='absolute bottom-6 w-11/12 '>
         <List.Item
-          title='Have a food allergy?'
+          title='View cart'
           left={(props) => (
             <View
               {...props}
               className='p-2 px-3 rounded-md bg-amber-700 shadow-inner'
             >
-              <Text className='text-base text-white'>3</Text>
+              <Text className='text-base text-white'>{order.items.length}</Text>
             </View>
           )}
           right={(props) => (
             <Text {...props} className='text-xl font-extrabold text-white'>
-              128 ETB
+              {order.totalPrice} ETB
             </Text>
           )}
           style={tw.style('py-3 text-gray-700 mt-3 bg-amber-600 rounded-lg')}
           titleStyle={tw.style('text-white text-xl font-extrabold')}
           onPress={() => console.log('')}
+          disabled={!order.items.length}
         />
       </View>
     </View>
