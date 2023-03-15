@@ -1,22 +1,16 @@
 import { View, Text, ScrollView, ImageBackground } from 'react-native';
 import React, { useEffect, useRef, useState } from 'react';
 import Feather from 'react-native-vector-icons/Feather';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import tw from 'twrnc';
 import { IconButton, Pressable } from '@react-native-material/core';
 import { Searchbar } from 'react-native-paper';
 import { useQuery } from '@tanstack/react-query';
 import TypeItem from '../Components/typeItem';
-import axios from 'axios';
 import { getFeaturedRestaurants, getRestaurants } from '../api/restaurants';
 
 const HomeScreen = ({ navigation }) => {
   const scrollView = useRef(null);
-  const [loading, setLoading] = useState(false);
-  const [restaurants, setRestaurants] = useState([]);
-  const [featuredLoading, setFeaturedLoading] = useState(false);
-  const [featuredRestaurants, setFeaturedRestaurants] = useState([]);
   const categories = [
     {
       name: 'Burger',
@@ -62,19 +56,10 @@ const HomeScreen = ({ navigation }) => {
     queryKey: ['restaurants', 'featured'],
     queryFn: () => getFeaturedRestaurants(),
   });
-  useEffect(() => {
-    const scrollToTop = navigation.addListener('tabPress', (e) => {
-      scrollView.current.scrollToOffset({
-        offset: 0,
-        animated: true,
-      });
-    });
-    return navigation.removeListener(scrollToTop);
-  }, []);
   return (
     <View className='pt-14 pb-28 bg-white h-full px-2'>
       <View className='w-full flex flex-row justify-between px-1 mb-1'>
-        <View className='rounded-xl overflow-hidden my-auto'>
+        <View className='rounded-lg overflow-hidden my-auto'>
           <Pressable style={tw.style('p-1 flex flex-row')}>
             <Icon
               name='map-marker-outline'

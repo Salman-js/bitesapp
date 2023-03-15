@@ -5,10 +5,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { IconButton } from '@react-native-material/core';
 import AnimatedNumbers from 'react-native-animated-numbers';
 
-const DishItem = ({ dish }) => {
-  const [newItem, setNewItem] = useState({
-    amount: 0,
-  });
+const DishItem = ({ order, dish, addItem, removeItem }) => {
   const formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'ETB',
@@ -36,7 +33,12 @@ const DishItem = ({ dish }) => {
         />
       </View>
       <View className='w-full flex flex-row justify-between'>
-        <ItemCounter newItem={newItem} setNewItem={setNewItem} />
+        <ItemCounter
+          dish={dish}
+          order={order}
+          addItem={addItem}
+          removeItem={removeItem}
+        />
         <Text className='text-xl font-extrabold text-black my-auto'>
           {formatter.format(dish.price)}
         </Text>
@@ -45,16 +47,17 @@ const DishItem = ({ dish }) => {
   );
 };
 
-const ItemCounter = ({ newItem, setNewItem }) => {
+const ItemCounter = ({ order, dish, addItem, removeItem }) => {
+  const dishInCart = order.items.filter((item) => item.id === dish.id);
   return (
     <View className='flex flex-row bg-gray-200 rounded-lg p-1 mt-2'>
       <IconButton
         icon={(props) => (
           <Icon
             name={
-              newItem.amount === 1
+              dishInCart.length === 1
                 ? 'delete'
-                : newItem.amount === 0
+                : dishInCart.length === 0
                 ? ''
                 : 'minus'
             }
@@ -62,29 +65,19 @@ const ItemCounter = ({ newItem, setNewItem }) => {
             size={26}
           />
         )}
-        onPress={() =>
-          setNewItem({
-            ...newItem,
-            amount: newItem.amount - 1,
-          })
-        }
-        disabled={!newItem.amount}
+        onPress={() => removeItem.mutate(dish.id)}
+        disabled={!dishInCart.length}
       />
       <View className='my-auto'>
         <AnimatedNumbers
-          animateToNumber={newItem.amount}
+          animateToNumber={dishInCart.length}
           fontStyle={tw.style('font-bold text-base mx-1 my-auto')}
           animationDuration={500}
         />
       </View>
       <IconButton
         icon={(props) => <Icon name='plus' {...props} size={26} />}
-        onPress={() =>
-          setNewItem({
-            ...newItem,
-            amount: newItem.amount + 1,
-          })
-        }
+        onPress={() => addItem.mutate(dish)}
       />
     </View>
   );

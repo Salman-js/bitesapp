@@ -15,6 +15,7 @@ import DishItem from '../Components/dishItem';
 import axios from 'axios';
 import LoadingDishItem from '../Components/loadingDishItem';
 import { useNavigation } from '@react-navigation/native';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 const RestaurantScreen = ({ route }) => {
   const navigation = useNavigation();
@@ -23,8 +24,45 @@ const RestaurantScreen = ({ route }) => {
     items: [],
     totalPrice: 0,
   });
+  const queryClient = useQueryClient();
+  const addItem = useMutation({
+    mutationFn: addItemToCart,
+    onSuccess: (data) => {
+      queryClient.setQueryData(['order'], data);
+      queryClient.invalidateQueries(['order'], { exact: true });
+    },
+  });
+  const removeItem = useMutation({
+    mutationFn: removeItemFromCart,
+    onSuccess: (data) => {
+      queryClient.setQueryData(['order'], data);
+      queryClient.invalidateQueries(['order'], { exact: true });
+    },
+  });
   const [restaurant, setRestaurant] = useState(null);
   const [loading, setLoading] = useState(false);
+  async function addItemToCart(item) {
+    setOrder({
+      ...order,
+      items: [...order.items, item],
+      totalPrice: order.totalPrice + item.price,
+    });
+    return order;
+  }
+  async function removeItemFromCart(id) {
+    let newItems = order.items;
+    let newItem = order.items.filter((item) => item.id === id);
+    const thisItem = order.items.filter((item) => item.id === id);
+    newItem.pop();
+    newItems = newItems.filter((item) => item.id !== id);
+    newItems = newItems.concat(newItem);
+    setOrder({
+      ...order,
+      items: newItems,
+      totalPrice: order.totalPrice - thisItem[0].price,
+    });
+    return order;
+  }
   async function getRestaurant(id) {
     setLoading(true);
     axios
@@ -125,7 +163,13 @@ const RestaurantScreen = ({ route }) => {
               : restaurant &&
                 Object.keys(restaurant) &&
                 restaurant.dishes.map((dish, index) => (
-                  <DishItem key={index} dish={dish} />
+                  <DishItem
+                    key={index}
+                    order={order}
+                    dish={dish}
+                    addItem={addItem}
+                    removeItem={removeItem}
+                  />
                 ))}
           </View>
         </View>
