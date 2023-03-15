@@ -1,8 +1,9 @@
 import axios from 'axios';
+import { URI } from './constants';
 
-export async function orderCart(order) {
+export async function getOrders() {
   return axios
-    .post('https://75b9-2a0d-5600-44-4000-00-3401.ap.ngrok.io/orders', order)
+    .get(`${URI}/orders`)
     .then((res) => res.data)
     .catch((err) => {
       console.log(err);

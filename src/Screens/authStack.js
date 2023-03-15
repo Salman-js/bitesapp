@@ -8,6 +8,7 @@ import HomeScreen from './homeScreen';
 import RestaurantScreen from './restaurantScreen';
 import CartScreen from './cartScreen';
 import TrackingScreen from './trackingScreen';
+import OrdersScreen from './ordersScreen';
 
 const Stack = createStackNavigator();
 export default function AuthStack({ navigation }) {
@@ -41,6 +42,13 @@ export default function AuthStack({ navigation }) {
         options={{
           headerShown: false,
           ...TransitionPresets.ModalSlideFromBottomIOS,
+        }}
+      />
+      <Stack.Screen
+        name='Orders'
+        component={OrdersScreen}
+        options={{
+          headerShown: false,
         }}
       />
     </Stack.Navigator>

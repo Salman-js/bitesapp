@@ -2,6 +2,7 @@ import { View, Text, ScrollView, ImageBackground } from 'react-native';
 import React, { useRef } from 'react';
 import Feather from 'react-native-vector-icons/Feather';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import tw from 'twrnc';
 import { IconButton, Pressable } from '@react-native-material/core';
 import { Searchbar } from 'react-native-paper';
@@ -10,7 +11,6 @@ import TypeItem from '../Components/typeItem';
 import { getFeaturedRestaurants, getRestaurants } from '../api/restaurants';
 
 const HomeScreen = ({ navigation }) => {
-  const scrollView = useRef(null);
   const categories = [
     {
       name: 'Burger',
@@ -85,9 +85,15 @@ const HomeScreen = ({ navigation }) => {
         </View>
         <IconButton
           icon={(props) => (
-            <Feather name='user' {...props} size={30} color='#ddba20' />
+            <Ionicons
+              name='receipt-outline'
+              {...props}
+              size={30}
+              color='#ddba20'
+            />
           )}
           style={tw.style('my-auto')}
+          onPress={() => navigation.navigate('Orders')}
         />
       </View>
       <View className='w-full flex flex-row pb-3'>
