@@ -32,9 +32,17 @@ const TrackingScreen = () => {
           style={tw.style('my-auto')}
           onPress={() => navigation.navigate('Home')}
         />
+        <Pressable className='my-auto'>
+          <Text className='text-lg text-gray-200'>Order help</Text>
+        </Pressable>
       </View>
-      <View className='my-4 w-11/12 rounded-md p-4 py-6 bg-white flex flex-row justify-between'>
-        <View>
+      <Surface
+        style={tw.style(
+          'my-4 w-11/12 rounded-md p-4 py-6 bg-white flex flex-row justify-between'
+        )}
+        elevation={5}
+      >
+        <View className='space-y-1'>
           <Text className='text-sm text-gray-400'>
             Estimated time of arrival
           </Text>
@@ -43,7 +51,7 @@ const TrackingScreen = () => {
           </Text>
           <Progress.Bar
             progress={0.3}
-            width={200}
+            width={150}
             indeterminate
             color='#ddba20'
           />
@@ -55,9 +63,9 @@ const TrackingScreen = () => {
           source={{
             uri: 'https://static.vecteezy.com/system/resources/thumbnails/007/557/606/small/flat-design-of-delivery-man-with-motorcycle-illustration-vector.jpg',
           }}
-          style={tw.style('w-14 h-14 rounded-full ml-3 my-auto')}
+          style={tw.style('w-16 h-16 rounded-full my-auto')}
         />
-      </View>
+      </Surface>
     </View>
   );
 };
