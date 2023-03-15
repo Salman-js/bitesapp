@@ -13,7 +13,7 @@ const OrderItem = ({ order }) => {
     currency: 'ETB',
   });
   return (
-    <View className='w-full p-2'>
+    <View className='w-full'>
       <Pressable
         style={tw.style('w-full p-4')}
         onPress={() =>
@@ -36,6 +36,9 @@ const OrderItem = ({ order }) => {
               </Text>
               <Text className='text-xl text-gray-500 font-light break-words'>
                 {order.items.length} items
+              </Text>
+              <Text className='text-xs text-gray-500 font-light break-words'>
+                {order.restaurantAddress}
               </Text>
             </View>
           </View>

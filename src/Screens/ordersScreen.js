@@ -13,6 +13,7 @@ import CartItem from '../Components/cartItem';
 import { useQuery } from '@tanstack/react-query';
 import { getOrders } from '../api/orders';
 import OrderItem from '../Components/orderItem';
+import LoadingOrderItem from '../Components/loadingOrderItem';
 
 const OrdersScreen = ({ route }) => {
   const navigation = useNavigation();
@@ -46,10 +47,14 @@ const OrdersScreen = ({ route }) => {
         />
       </View>
       <ScrollView className='w-full divide-y divide-gray-300'>
-        {orderQuery.data &&
-          orderQuery.data.map((order, index) => (
-            <OrderItem key={index} order={order} />
-          ))}
+        {orderQuery.isLoading
+          ? [...Array(4).keys()].map((order, index) => (
+              <LoadingOrderItem key={index} />
+            ))
+          : orderQuery.data &&
+            orderQuery.data.map((order, index) => (
+              <OrderItem key={index} order={order} />
+            ))}
       </ScrollView>
     </View>
   );
