@@ -1,5 +1,5 @@
 import { View, Text, ScrollView, ImageBackground } from 'react-native';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import Feather from 'react-native-vector-icons/Feather';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import tw from 'twrnc';

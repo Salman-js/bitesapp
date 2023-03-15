@@ -1,19 +1,11 @@
 import { View, Text, Image, StatusBar, SafeAreaView } from 'react-native';
-import React, { useEffect } from 'react';
-import { Button, IconButton, Surface } from '@react-native-material/core';
+import React from 'react';
+import { IconButton, Surface } from '@react-native-material/core';
 import Icon from '@expo/vector-icons/Feather';
-import Material from '@expo/vector-icons/MaterialCommunityIcons';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import tw from 'twrnc';
-import { useState } from 'react';
-import { Button as PaperButton, List } from 'react-native-paper';
+import { List } from 'react-native-paper';
 import { Pressable } from 'react-native';
-import { ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import AnimatedNumbers from 'react-native-animated-numbers';
-import CartItem from '../Components/cartItem';
 import * as Progress from 'react-native-progress';
 import MapView, { Marker } from 'react-native-maps';
 

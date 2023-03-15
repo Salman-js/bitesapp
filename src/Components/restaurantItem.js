@@ -2,7 +2,6 @@ import { View, Text, Image } from 'react-native';
 import React from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import tw from 'twrnc';
 import { Pressable, Surface } from '@react-native-material/core';
 import { useNavigation } from '@react-navigation/native';

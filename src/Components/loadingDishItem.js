@@ -1,5 +1,5 @@
-import { View, Text, Image } from 'react-native';
-import React, { useState } from 'react';
+import { View } from 'react-native';
+import React from 'react';
 import tw from 'twrnc';
 import { Skeleton } from '@rneui/themed';
 

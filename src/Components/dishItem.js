@@ -1,5 +1,5 @@
 import { View, Text, Image } from 'react-native';
-import React, { useState } from 'react';
+import React from 'react';
 import tw from 'twrnc';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { IconButton } from '@react-native-material/core';
