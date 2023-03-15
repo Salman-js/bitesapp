@@ -1,6 +1,6 @@
 import { View, Text, Image } from 'react-native';
 import React, { useEffect } from 'react';
-import { Button, IconButton } from '@react-native-material/core';
+import { Button, IconButton, Surface } from '@react-native-material/core';
 import Icon from '@expo/vector-icons/Feather';
 import Material from '@expo/vector-icons/MaterialCommunityIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -24,14 +24,17 @@ const CartScreen = ({ route }) => {
     style: 'currency',
     currency: 'ETB',
   });
-  async function removeWholeItem(id) {
+  async function removeItemFromCart(id) {
     let newItems = order.items;
+    let newItem = order.items.filter((item) => item.id === id);
     const thisItem = order.items.filter((item) => item.id === id);
+    newItem.pop();
     newItems = newItems.filter((item) => item.id !== id);
+    newItems = newItems.concat(newItem);
     setOrder({
       ...order,
       items: newItems,
-      totalPrice: order.totalPrice - thisItem[0].price * thisItem.length,
+      totalPrice: order.totalPrice - thisItem[0].price,
     });
     return order;
   }
@@ -45,7 +48,7 @@ const CartScreen = ({ route }) => {
     uniqItems.push(uniqueObject[i]);
   }
   return (
-    <View className='pb-28 bg-slate-200 h-full flex items-center'>
+    <View className='bg-slate-200 h-full flex items-center'>
       <View className='w-full flex flex-row justify-between px-3 py-4 mb-1 bg-white'>
         <IconButton
           icon={(props) => <Icon name='chevron-down' {...props} size={30} />}
@@ -95,50 +98,63 @@ const CartScreen = ({ route }) => {
         titleStyle={tw.style('text-gray-700')}
         onPress={() => console.log('')}
       />
-      <ScrollView className='w-full h-full'>
-        <View className='w-full'>
-          <View className='w-full px-4 bg-white pb-28'>
-            {uniqItems.map((dish, index) => (
-              <CartItem
-                key={index}
-                order={order}
-                dish={dish}
-                removeItem={removeWholeItem}
-              />
-            ))}
+      <ScrollView className='w-full h-72 pb-28 divide-y divide-gray-300'>
+        {uniqItems.map((dish, index) => (
+          <CartItem
+            key={index}
+            order={order}
+            dish={dish}
+            removeItem={removeItemFromCart}
+          />
+        ))}
+      </ScrollView>
+      <View className='absolute bottom-0 w-full bg-white flex items-center py-6 space-y-4'>
+        <View className='w-full px-6 flex flex-row justify-between'>
+          <Text className='text-lg text-gray-400 my-auto'>Subtotal</Text>
+          <View className='flex flex-row'>
+            <Text className='text-lg text-gray-400'>ETB </Text>
+            <AnimatedNumbers
+              includeComma
+              animateToNumber={order.totalPrice}
+              fontStyle={tw.style('text-lg text-gray-400')}
+              animationDuration={500}
+            />
           </View>
         </View>
-      </ScrollView>
-      <View className='absolute bottom-6 w-11/12 '>
-        <List.Item
-          title='View cart'
-          left={(props) => (
-            <View
-              {...props}
-              className='p-2 px-3 rounded-md bg-amber-700 shadow-inner'
-            >
-              <AnimatedNumbers
-                animateToNumber={order.items.length}
-                fontStyle={tw.style('text-base text-white')}
-                animationDuration={500}
-              />
-            </View>
-          )}
-          right={(props) => (
-            <View {...props} className='my-auto flex flex-row'>
-              <Text className='text-xl font-extrabold text-white'>ETB </Text>
-              <AnimatedNumbers
-                animateToNumber={parseFloat(order.totalPrice).toPrecision(2)}
-                fontStyle={tw.style('text-xl font-extrabold text-white')}
-                animationDuration={500}
-              />
-            </View>
-          )}
-          style={tw.style('py-3 text-gray-700 mt-3 bg-amber-600 rounded-lg')}
-          titleStyle={tw.style('text-white text-xl font-extrabold')}
-          onPress={() => console.log('')}
-          disabled={!order.items.length}
-        />
+        <View className='w-full px-6 flex flex-row justify-between'>
+          <Text className='text-lg text-gray-400 my-auto'>Delivery fee</Text>
+          <View className='flex flex-row'>
+            <Text className='text-lg text-gray-400'>ETB </Text>
+            <AnimatedNumbers
+              includeComma
+              animateToNumber={35}
+              fontStyle={tw.style('text-lg text-gray-400')}
+              animationDuration={500}
+            />
+          </View>
+        </View>
+        <View className='w-full px-6 flex flex-row justify-between'>
+          <Text className='text-xl text-gray-700 my-auto'>Order total</Text>
+          <View className='flex flex-row'>
+            <Text className='text-xl text-gray-700'>ETB </Text>
+            <AnimatedNumbers
+              includeComma
+              animateToNumber={order.totalPrice + 35}
+              fontStyle={tw.style('text-xl text-gray-700')}
+              animationDuration={500}
+            />
+          </View>
+        </View>
+        <Surface
+          style={tw.style('w-11/12 rounded-xl bg-amber-600')}
+          elevation={5}
+        >
+          <Pressable className='w-full p-6 flex items-center justify-center'>
+            <Text className='text-xl font-semibold text-white'>
+              Place order
+            </Text>
+          </Pressable>
+        </Surface>
       </View>
     </View>
   );

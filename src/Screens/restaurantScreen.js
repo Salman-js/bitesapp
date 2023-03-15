@@ -55,6 +55,7 @@ const RestaurantScreen = ({ route }) => {
       ...order,
       items: newItems,
       totalPrice: order.totalPrice - thisItem[0].price,
+      deliveryFee: 0.0,
     });
     return order;
   }

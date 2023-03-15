@@ -11,7 +11,7 @@ const CartItem = ({ order, dish, removeItem }) => {
   });
   const dishInOrder = order.items.filter((item) => item.id === dish.id);
   return (
-    <View className='w-full p-2 py-3'>
+    <View className='w-full p-4 bg-white'>
       <View className='w-full flex flex-row justify-between'>
         <View
           style={tw.style('', {
@@ -34,14 +34,14 @@ const CartItem = ({ order, dish, removeItem }) => {
             </Text>
           </View>
         </View>
-        <View className='flex flex-row'>
+        <View className='flex flex-row space-x-1'>
           <Text className='text-base font-light text-black my-auto'>
             {formatter.format(dish.price)}
           </Text>
           <IconButton
             icon={(props) => <Icon name='delete' {...props} size={26} />}
             onPress={() => removeItem(dish.id)}
-            style={tw.style('my-auto mx-2')}
+            style={tw.style('my-auto')}
           />
         </View>
       </View>
