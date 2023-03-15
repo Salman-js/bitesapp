@@ -7,6 +7,7 @@ import {
 import HomeScreen from './homeScreen';
 import RestaurantScreen from './restaurantScreen';
 import CartScreen from './cartScreen';
+import TrackingScreen from './trackingScreen';
 
 const Stack = createStackNavigator();
 export default function AuthStack({ navigation }) {
@@ -32,6 +33,14 @@ export default function AuthStack({ navigation }) {
         options={{
           headerShown: false,
           ...TransitionPresets.ModalPresentationIOS,
+        }}
+      />
+      <Stack.Screen
+        name='Track'
+        component={TrackingScreen}
+        options={{
+          headerShown: false,
+          ...TransitionPresets.ModalSlideFromBottomIOS,
         }}
       />
     </Stack.Navigator>

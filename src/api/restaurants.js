@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export async function getRestaurants() {
   return axios
-    .get('https://75b9-2a0d-5600-44-4000-00-3401.ap.ngrok.io/restaurants', {
+    .get('https://6cd7-2605-6440-4011-4000-00-12b9.ngrok.io/restaurants', {
       params: { _sort: 'name' },
     })
     .then((res) => res.data)
@@ -14,7 +14,7 @@ export async function getRestaurants() {
 export async function getFeaturedRestaurants() {
   return axios
     .get(
-      'https://75b9-2a0d-5600-44-4000-00-3401.ap.ngrok.io/restaurants?type=featured',
+      'https://6cd7-2605-6440-4011-4000-00-12b9.ngrok.io/restaurants?type=featured',
       {
         params: { _sort: 'id' },
       }

@@ -17,6 +17,7 @@ import LoadingDishItem from '../Components/loadingDishItem';
 import { useNavigation } from '@react-navigation/native';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import AnimatedNumbers from 'react-native-animated-numbers';
+import * as Animatable from 'react-native-animatable';
 
 const RestaurantScreen = ({ route }) => {
   const navigation = useNavigation();
@@ -63,7 +64,7 @@ const RestaurantScreen = ({ route }) => {
     setLoading(true);
     axios
       .get(
-        `https://75b9-2a0d-5600-44-4000-00-3401.ap.ngrok.io/restaurants?id=${id}`
+        `https://6cd7-2605-6440-4011-4000-00-12b9.ngrok.io/restaurants?id=${id}`
       )
       .then((res) => {
         setRestaurant(res.data[0]);
@@ -151,9 +152,13 @@ const RestaurantScreen = ({ route }) => {
               Menu
             </Text>
           </View>
-          <View className='w-full px-4 mt-4 bg-white pb-28'>
+          <View
+            className={`w-full px-4 mt-4 bg-white ${
+              order.items.length && 'pb-28'
+            }`}
+          >
             {loading
-              ? [...Array(3).keys()].map((dish, index) => (
+              ? [...Array(4).keys()].map((dish, index) => (
                   <LoadingDishItem key={index} />
                 ))
               : restaurant &&
@@ -183,42 +188,49 @@ const RestaurantScreen = ({ route }) => {
           })}
         />
       </View>
-      <View className='absolute bottom-6 w-11/12'>
-        <List.Item
-          title='View cart'
-          left={(props) => (
-            <View
-              {...props}
-              className='p-2 px-3 rounded-md bg-amber-700 shadow-inner'
-            >
-              <AnimatedNumbers
-                animateToNumber={order.items.length}
-                fontStyle={tw.style('text-lg text-white font-bold')}
-                animationDuration={500}
-              />
-            </View>
-          )}
-          right={(props) => (
-            <View {...props} className='my-auto flex flex-row'>
-              <Text className='text-xl font-extrabold text-white'>ETB </Text>
-              <AnimatedNumbers
-                includeComma
-                animateToNumber={order.totalPrice}
-                fontStyle={tw.style('text-xl font-extrabold text-white')}
-                animationDuration={500}
-              />
-            </View>
-          )}
-          style={tw.style('py-3 text-gray-700 mt-3 bg-amber-600 rounded-lg')}
-          titleStyle={tw.style('text-white text-xl font-extrabold')}
-          onPress={() =>
-            navigation.navigate('Cart', {
-              orderPassed: order,
-            })
-          }
-          disabled={!order.items.length}
-        />
-      </View>
+      {order.items.length ? (
+        <Animatable.View
+          animation='slideInUp'
+          iterationCount={1}
+          duration={500}
+          className='absolute bottom-6 w-11/12'
+        >
+          <List.Item
+            title='View cart'
+            left={(props) => (
+              <View
+                {...props}
+                className='p-2 px-3 rounded-md bg-amber-700 shadow-inner'
+              >
+                <AnimatedNumbers
+                  animateToNumber={order.items.length}
+                  fontStyle={tw.style('text-lg text-white font-bold')}
+                  animationDuration={500}
+                />
+              </View>
+            )}
+            right={(props) => (
+              <View {...props} className='my-auto flex flex-row'>
+                <Text className='text-xl font-extrabold text-white'>ETB </Text>
+                <AnimatedNumbers
+                  includeComma
+                  animateToNumber={order.totalPrice}
+                  fontStyle={tw.style('text-xl font-extrabold text-white')}
+                  animationDuration={500}
+                />
+              </View>
+            )}
+            style={tw.style('py-3 text-gray-700 mt-3 bg-amber-600 rounded-lg')}
+            titleStyle={tw.style('text-white text-xl font-extrabold')}
+            onPress={() =>
+              navigation.navigate('Cart', {
+                orderPassed: order,
+              })
+            }
+            disabled={!order.items.length}
+          />
+        </Animatable.View>
+      ) : null}
     </View>
   );
 };

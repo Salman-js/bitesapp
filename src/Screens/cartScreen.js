@@ -15,6 +15,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import AnimatedNumbers from 'react-native-animated-numbers';
 import CartItem from '../Components/cartItem';
+import { StatusBar } from 'react-native';
 
 const CartScreen = ({ route }) => {
   const navigation = useNavigation();
@@ -48,7 +49,7 @@ const CartScreen = ({ route }) => {
     uniqItems.push(uniqueObject[i]);
   }
   return (
-    <View className='bg-slate-200 h-full flex items-center'>
+    <View className='bg-slate-200 h-full flex items-center pb-44'>
       <View className='w-full flex flex-row justify-between px-3 py-4 mb-1 bg-white'>
         <IconButton
           icon={(props) => <Icon name='chevron-down' {...props} size={30} />}
@@ -98,7 +99,7 @@ const CartScreen = ({ route }) => {
         titleStyle={tw.style('text-gray-700')}
         onPress={() => console.log('')}
       />
-      <ScrollView className='w-full h-72 pb-28 divide-y divide-gray-300'>
+      <ScrollView className='w-full divide-y divide-gray-300'>
         {uniqItems.map((dish, index) => (
           <CartItem
             key={index}
@@ -127,20 +128,24 @@ const CartScreen = ({ route }) => {
             <Text className='text-lg text-gray-400'>ETB </Text>
             <AnimatedNumbers
               includeComma
-              animateToNumber={35}
+              animateToNumber={order.items.length ? 35 : 0}
               fontStyle={tw.style('text-lg text-gray-400')}
               animationDuration={500}
             />
           </View>
         </View>
         <View className='w-full px-6 flex flex-row justify-between'>
-          <Text className='text-xl text-gray-700 my-auto'>Order total</Text>
+          <Text className='text-xl text-black my-auto font-extrabold'>
+            Order total
+          </Text>
           <View className='flex flex-row'>
-            <Text className='text-xl text-gray-700'>ETB </Text>
+            <Text className='text-xl text-black font-extrabold'>ETB </Text>
             <AnimatedNumbers
               includeComma
-              animateToNumber={order.totalPrice + 35}
-              fontStyle={tw.style('text-xl text-gray-700')}
+              animateToNumber={
+                order.items.length ? order.totalPrice + 35 : order.totalPrice
+              }
+              fontStyle={tw.style('text-xl text-black font-extrabold')}
               animationDuration={500}
             />
           </View>
@@ -149,7 +154,10 @@ const CartScreen = ({ route }) => {
           style={tw.style('w-11/12 rounded-xl bg-amber-600')}
           elevation={5}
         >
-          <Pressable className='w-full p-6 flex items-center justify-center'>
+          <Pressable
+            className='w-full p-6 flex items-center justify-center'
+            onPress={() => navigation.navigate('Track')}
+          >
             <Text className='text-xl font-semibold text-white'>
               Place order
             </Text>
