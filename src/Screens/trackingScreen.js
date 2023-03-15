@@ -17,8 +17,9 @@ import CartItem from '../Components/cartItem';
 import * as Progress from 'react-native-progress';
 import MapView, { Marker } from 'react-native-maps';
 
-const TrackingScreen = () => {
+const TrackingScreen = ({ route }) => {
   const navigation = useNavigation();
+  const { order } = route.params;
   return (
     <View className='bg-cyan-500 h-full flex items-center'>
       <StatusBar
@@ -71,8 +72,8 @@ const TrackingScreen = () => {
       </SafeAreaView>
       <MapView
         initialRegion={{
-          latitude: 36.747922373227084,
-          longitude: -95.9345394081794,
+          latitude: order.restaurantLocation.latitude,
+          longitude: order.restaurantLocation.longitude,
           latitudeDelta: 0.005,
           longitudeDelta: 0.005,
         }}
@@ -83,11 +84,11 @@ const TrackingScreen = () => {
       >
         <Marker
           coordinate={{
-            latitude: 36.747922373227084,
-            longitude: -95.9345394081794,
+            latitude: order.restaurantLocation.latitude,
+            longitude: order.restaurantLocation.longitude,
           }}
-          title='Chik-fil-A'
-          description='Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus, officiis?'
+          title={order.restaurantName}
+          description={order.restaurantDescription}
           identifier='origin'
           pinColor='#a44d0f'
         />

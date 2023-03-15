@@ -28,8 +28,18 @@ const RestaurantScreen = ({ route }) => {
   const [order, setOrder] = useState({
     items: [],
     totalPrice: 0.0,
+    deliveryLocation: {
+      latitude: 36.691062845810485,
+      longitude: -96.30832214478872,
+    },
+    deliveryFee: 35.0,
     restaurantName: restaurantPassed.name,
     restaurantId: restaurantPassed.id,
+    restaurantDescription: restaurantPassed.description,
+    restaurantLocation: {
+      latitude: restaurantPassed.latitude,
+      longitude: restaurantPassed.longitude,
+    },
   });
   const formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',

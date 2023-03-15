@@ -128,7 +128,7 @@ const CartScreen = ({ route }) => {
             <Text className='text-lg text-gray-400'>ETB </Text>
             <AnimatedNumbers
               includeComma
-              animateToNumber={order.items.length ? 35 : 0}
+              animateToNumber={order.items.length ? order.deliveryFee : 0}
               fontStyle={tw.style('text-lg text-gray-400')}
               animationDuration={500}
             />
@@ -156,7 +156,11 @@ const CartScreen = ({ route }) => {
         >
           <Pressable
             className='w-full p-6 flex items-center justify-center'
-            onPress={() => navigation.navigate('Track')}
+            onPress={() =>
+              navigation.navigate('Track', {
+                order,
+              })
+            }
           >
             <Text className='text-xl font-semibold text-white'>
               Place order
