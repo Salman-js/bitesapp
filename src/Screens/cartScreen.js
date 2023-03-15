@@ -91,7 +91,7 @@ const CartScreen = ({ route }) => {
           </Text>
         )}
         style={tw.style(
-          'py-3 text-gray-700 my-4 border-t border-gray-200 w-full bg-white',
+          'text-gray-700 my-4 border-t border-gray-200 w-full bg-white',
           {
             borderTopWidth: 0.7,
           }

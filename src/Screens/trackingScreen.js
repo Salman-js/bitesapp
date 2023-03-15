@@ -29,12 +29,12 @@ const TrackingScreen = () => {
       />
       <View className='w-full flex flex-row justify-between px-3 pt-14  mb-1 bg-transparent'>
         <IconButton
-          icon={(props) => <Icon name='x' {...props} size={30} />}
+          icon={(props) => <Icon name='x' {...props} size={30} color='white' />}
           style={tw.style('my-auto')}
           onPress={() => navigation.navigate('Home')}
         />
         <Pressable className='my-auto'>
-          <Text className='text-lg text-gray-100'>Order help</Text>
+          <Text className='text-lg text-white'>Order help</Text>
         </Pressable>
       </View>
       <SafeAreaView className='w-full flex items-center z-40'>
@@ -92,7 +92,7 @@ const TrackingScreen = () => {
           pinColor='#a44d0f'
         />
       </MapView>
-      <SafeAreaView className='absolute bottom-0 w-full flex items-center z-40 bg-white'>
+      <SafeAreaView className='absolute bottom-0 w-full z-40 bg-white'>
         <List.Item
           title='Salman Mohammed'
           description='Delivery person'
@@ -112,7 +112,7 @@ const TrackingScreen = () => {
               Call
             </Text>
           )}
-          style={tw.style('py-3 text-gray-700 my-4 w-full bg-white')}
+          style={tw.style('text-gray-700 my-4 w-full bg-white')}
           titleStyle={tw.style('text-gray-700')}
           onPress={() => console.log('')}
         />
