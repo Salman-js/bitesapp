@@ -33,6 +33,7 @@ const RestaurantScreen = ({ route }) => {
     deliveryFee: 35.0,
     restaurantName: restaurantPassed.name,
     restaurantId: restaurantPassed.id,
+    restaurantAddress: restaurantPassed.address,
     restaurantDescription: restaurantPassed.description,
     restaurantLocation: {
       latitude: restaurantPassed.latitude,

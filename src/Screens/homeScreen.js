@@ -139,7 +139,7 @@ const HomeScreen = ({ navigation }) => {
                         uri: category.image,
                       }}
                       resizeMode='cover'
-                      imageStyle={tw.style('opacity-50')}
+                      imageStyle={tw.style('opacity-60')}
                     >
                       <Pressable
                         style={tw.style(
