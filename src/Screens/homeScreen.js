@@ -1,10 +1,4 @@
-import {
-  View,
-  Text,
-  Dimensions,
-  ScrollView,
-  ImageBackground,
-} from 'react-native';
+import { View, Text, ScrollView, ImageBackground } from 'react-native';
 import React, { useEffect, useRef, useState } from 'react';
 import Feather from 'react-native-vector-icons/Feather';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -12,17 +6,10 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import tw from 'twrnc';
 import { IconButton, Pressable } from '@react-native-material/core';
 import { Searchbar } from 'react-native-paper';
-import BannerSlider from '../Components/bannerSlider';
-import Carousel from 'react-native-reanimated-carousel';
+import { useQuery } from '@tanstack/react-query';
 import TypeItem from '../Components/typeItem';
 import axios from 'axios';
-
-export const windowWidth = Dimensions.get('window').width;
-export const windowHeight = Dimensions.get('window').height;
-
-const renderBanner = ({ item }) => {
-  return <BannerSlider data={item} />;
-};
+import { getFeaturedRestaurants, getRestaurants } from '../api/restaurants';
 
 const HomeScreen = ({ navigation }) => {
   const scrollView = useRef(null);
@@ -67,6 +54,14 @@ const HomeScreen = ({ navigation }) => {
         'https://assets.bonappetit.com/photos/5b919cb83d923e31d08fed17/1:1/w_2560%2Cc_limit/basically-burger-1.jpg',
     },
   ];
+  const restaurantQuery = useQuery({
+    queryKey: ['restaurants'],
+    queryFn: () => getRestaurants(),
+  });
+  const featuredRestaurantQuery = useQuery({
+    queryKey: ['restaurants', 'featured'],
+    queryFn: () => getFeaturedRestaurants(),
+  });
   useEffect(() => {
     const scrollToTop = navigation.addListener('tabPress', (e) => {
       scrollView.current.scrollToOffset({
@@ -75,43 +70,6 @@ const HomeScreen = ({ navigation }) => {
       });
     });
     return navigation.removeListener(scrollToTop);
-  }, []);
-  async function getRestaurants() {
-    setLoading(true);
-    axios
-      .get('https://75b9-2a0d-5600-44-4000-00-3401.ap.ngrok.io/restaurants', {
-        params: { _sort: 'name' },
-      })
-      .then((res) => {
-        setRestaurants(res.data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.log(err);
-        setLoading(false);
-      });
-  }
-  async function getFeaturedRestaurants() {
-    setFeaturedLoading(true);
-    axios
-      .get(
-        'https://75b9-2a0d-5600-44-4000-00-3401.ap.ngrok.io/restaurants?type=featured',
-        {
-          params: { _sort: 'id' },
-        }
-      )
-      .then((res) => {
-        setFeaturedRestaurants(res.data);
-        setFeaturedLoading(false);
-      })
-      .catch((err) => {
-        console.log(err);
-        setFeaturedLoading(false);
-      });
-  }
-  useEffect(() => {
-    getRestaurants();
-    getFeaturedRestaurants();
   }, []);
   return (
     <View className='pt-14 pb-28 bg-white h-full px-2'>
@@ -205,20 +163,20 @@ const HomeScreen = ({ navigation }) => {
           <TypeItem
             title='Featured'
             desc='Paid placements from our partners'
-            restaurants={featuredRestaurants}
-            loading={featuredLoading}
+            restaurants={featuredRestaurantQuery.data}
+            loading={featuredRestaurantQuery.isLoading}
           />
           <TypeItem
             title='Tasty discounts'
             desc='Restaurants with special offers'
-            restaurants={restaurants}
-            loading={loading}
+            restaurants={restaurantQuery.data}
+            loading={restaurantQuery.isLoading}
           />
           <TypeItem
             title='Offers near you'
             desc='Delicious cuisines in your area'
-            restaurants={restaurants}
-            loading={loading}
+            restaurants={restaurantQuery.data}
+            loading={restaurantQuery.isLoading}
           />
         </ScrollView>
       </View>
