@@ -79,7 +79,7 @@ const HomeScreen = ({ navigation }) => {
   async function getRestaurants() {
     setLoading(true);
     axios
-      .get('https://e76d-196-191-52-13.eu.ngrok.io/restaurants', {
+      .get('https://75b9-2a0d-5600-44-4000-00-3401.ap.ngrok.io/restaurants', {
         params: { _sort: 'name' },
       })
       .then((res) => {
@@ -94,9 +94,12 @@ const HomeScreen = ({ navigation }) => {
   async function getFeaturedRestaurants() {
     setFeaturedLoading(true);
     axios
-      .get('https://e76d-196-191-52-13.eu.ngrok.io/restaurants?type=featured', {
-        params: { _sort: 'id' },
-      })
+      .get(
+        'https://75b9-2a0d-5600-44-4000-00-3401.ap.ngrok.io/restaurants?type=featured',
+        {
+          params: { _sort: 'id' },
+        }
+      )
       .then((res) => {
         setFeaturedRestaurants(res.data);
         setFeaturedLoading(false);
@@ -113,8 +116,8 @@ const HomeScreen = ({ navigation }) => {
   return (
     <View className='pt-14 pb-28 bg-white h-full px-2'>
       <View className='w-full flex flex-row justify-between px-1 mb-1'>
-        <View className='rounded-2xl overflow-hidden'>
-          <Pressable style={tw.style('p-1 flex flex-row my-auto')}>
+        <View className='rounded-xl overflow-hidden my-auto'>
+          <Pressable style={tw.style('p-1 flex flex-row')}>
             <Icon
               name='map-marker-outline'
               size={25}

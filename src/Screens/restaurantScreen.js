@@ -28,7 +28,9 @@ const RestaurantScreen = ({ route }) => {
   async function getRestaurant(id) {
     setLoading(true);
     axios
-      .get(`https://e76d-196-191-52-13.eu.ngrok.io/restaurants?id=${id}`)
+      .get(
+        `https://75b9-2a0d-5600-44-4000-00-3401.ap.ngrok.io/restaurants?id=${id}`
+      )
       .then((res) => {
         setRestaurant(res.data[0]);
         setLoading(false);
@@ -68,7 +70,7 @@ const RestaurantScreen = ({ route }) => {
               {restaurantPassed.name}
             </Text>
             <View className='flex flex-row mt-2 items-center'>
-              <AntDesign name='star' color='#f59e0b' size={25} />
+              <AntDesign name='star' color='#f59e0b' size={22} />
               <Text className='text-amber-500 font-bold text-lg ml-1'>
                 {restaurantPassed.rating}
               </Text>
@@ -79,7 +81,7 @@ const RestaurantScreen = ({ route }) => {
               <Text className='text-amber-500 font-bold text-lg ml-2'>.</Text>
               <Ionicons
                 name='location-sharp'
-                size={23}
+                size={20}
                 color='#f59e0b'
                 style={tw.style('ml-2')}
               />
@@ -99,14 +101,19 @@ const RestaurantScreen = ({ route }) => {
             right={(props) => (
               <Icon name='chevron-right' size={24} {...props} />
             )}
-            style={tw.style('py-3 text-gray-700 mt-3')}
+            style={tw.style(
+              'py-3 text-gray-700 mt-3 border-t border-gray-200',
+              {
+                borderTopWidth: 0.7,
+              }
+            )}
             titleStyle={tw.style('text-gray-700')}
             onPress={() => console.log('')}
           />
         </View>
         <View className='w-full mt-8'>
           <View className='w-full px-4'>
-            <Text className='text-xl text-black font-extrabold break-words'>
+            <Text className='text-2xl text-gray-700 font-extrabold break-words'>
               Menu
             </Text>
           </View>
@@ -129,10 +136,10 @@ const RestaurantScreen = ({ route }) => {
         )}
       >
         <IconButton
-          icon={(props) => <Icon name='chevron-left' {...props} size={30} />}
+          icon={(props) => <Icon name='arrow-left' {...props} size={25} />}
           onPress={() => navigation.goBack()}
           style={tw.style('', {
-            backgroundColor: '#ffffff8b',
+            backgroundColor: '#ffffffcf',
           })}
         />
       </View>
@@ -155,7 +162,6 @@ const RestaurantScreen = ({ route }) => {
           style={tw.style('py-3 text-gray-700 mt-3 bg-amber-600 rounded-lg')}
           titleStyle={tw.style('text-white text-xl font-extrabold')}
           onPress={() => console.log('')}
-          disabled={!order.items.length}
         />
       </View>
     </View>

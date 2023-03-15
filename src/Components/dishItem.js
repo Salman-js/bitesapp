@@ -3,10 +3,15 @@ import React, { useState } from 'react';
 import tw from 'twrnc';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { IconButton } from '@react-native-material/core';
+import AnimatedNumbers from 'react-native-animated-numbers';
 
 const DishItem = ({ dish }) => {
   const [newItem, setNewItem] = useState({
     amount: 0,
+  });
+  const formatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'ETB',
   });
   return (
     <View className='w-full p-2'>
@@ -33,7 +38,7 @@ const DishItem = ({ dish }) => {
       <View className='w-full flex flex-row justify-between'>
         <ItemCounter newItem={newItem} setNewItem={setNewItem} />
         <Text className='text-xl font-extrabold text-black my-auto'>
-          {dish.price} ETB
+          {formatter.format(dish.price)}
         </Text>
       </View>
     </View>
@@ -65,7 +70,13 @@ const ItemCounter = ({ newItem, setNewItem }) => {
         }
         disabled={!newItem.amount}
       />
-      <Text className='font-bold text-base mx-1 my-auto'>{newItem.amount}</Text>
+      <View className='my-auto'>
+        <AnimatedNumbers
+          animateToNumber={newItem.amount}
+          fontStyle={tw.style('font-bold text-base mx-1 my-auto')}
+          animationDuration={500}
+        />
+      </View>
       <IconButton
         icon={(props) => <Icon name='plus' {...props} size={26} />}
         onPress={() =>

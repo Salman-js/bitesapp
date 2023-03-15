@@ -19,17 +19,17 @@ const LoadingRestaurantItem = () => {
         />
         <View className='w-full p-1 px-2'>
           <Skeleton
-            style={tw.style('w-1/2 h-4 bg-amber-500')}
+            style={tw.style('w-1/2 h-4 bg-amber-500 rounded-md')}
             animation='wave'
           />
           <View className='flex flex-row mt-1'>
             <Skeleton
-              style={tw.style('w-1/2 h-4 bg-amber-500')}
+              style={tw.style('w-1/2 h-4 bg-amber-500 rounded-md')}
               animation='wave'
             />
           </View>
           <Skeleton
-            style={tw.style('w-4/5 h-4 mt-1 bg-amber-500')}
+            style={tw.style('w-4/5 h-4 mt-1 bg-amber-500 rounded-md')}
             animation='wave'
           />
         </View>

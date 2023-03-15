@@ -14,20 +14,22 @@ const LoadingDishItem = () => {
         >
           <Skeleton
             animation='wave'
-            style={tw.style('w-full h-6 bg-amber-500')}
+            style={tw.style('w-1/2 h-6 bg-amber-500 rounded-md')}
           />
           <Skeleton
             animation='wave'
-            style={tw.style('w-full h-3 mt-1 bg-amber-500')}
+            style={tw.style('w-11/12 h-3 mt-1 bg-amber-500 rounded-md')}
           />
           <Skeleton
             animation='wave'
-            style={tw.style('w-1/2 h-3 mt-1 bg-amber-500')}
+            style={tw.style('w-2/3 h-3 mt-1 bg-amber-500 rounded-md')}
           />
         </View>
         <Skeleton
           animation='wave'
-          style={tw.style('w-1/5 h-16 rounded-md my-auto bg-amber-500')}
+          style={tw.style(
+            'w-1/5 h-16 rounded-md my-auto bg-amber-500 rounded-md'
+          )}
         />
       </View>
     </View>
