@@ -6,6 +6,7 @@ import {
 } from '@react-navigation/stack';
 import HomeScreen from './homeScreen';
 import RestaurantScreen from './restaurantScreen';
+import CartScreen from './cartScreen';
 
 const Stack = createStackNavigator();
 export default function AuthStack({ navigation }) {
@@ -24,6 +25,14 @@ export default function AuthStack({ navigation }) {
         name='Restaurant'
         component={RestaurantScreen}
         options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name='Cart'
+        component={CartScreen}
+        options={{
+          headerShown: false,
+          ...TransitionPresets.ModalPresentationIOS,
+        }}
       />
     </Stack.Navigator>
   );

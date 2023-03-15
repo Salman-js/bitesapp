@@ -110,12 +110,17 @@ const HomeScreen = ({ navigation }) => {
         />
       </View>
       <View className='w-full h-auto'>
-        <ScrollView showsVerticalScrollIndicator={false} className='w-full'>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          className='w-full'
+          alwaysBounceVertical
+        >
           <View className='h-20 w-full'>
             <ScrollView
               horizontal
               showsHorizontalScrollIndicator={false}
               className='w-full h-20'
+              alwaysBounceHorizontal
             >
               {categories.map((category, index) => {
                 return (

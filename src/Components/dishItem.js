@@ -65,7 +65,7 @@ const ItemCounter = ({ order, dish, addItem, removeItem }) => {
             size={26}
           />
         )}
-        onPress={() => removeItem.mutate(dish.id)}
+        onPress={() => removeItem(dish.id)}
         disabled={!dishInCart.length}
       />
       <View className='my-auto'>
@@ -77,7 +77,7 @@ const ItemCounter = ({ order, dish, addItem, removeItem }) => {
       </View>
       <IconButton
         icon={(props) => <Icon name='plus' {...props} size={26} />}
-        onPress={() => addItem.mutate(dish)}
+        onPress={() => addItem(dish)}
       />
     </View>
   );

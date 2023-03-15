@@ -16,28 +16,23 @@ import axios from 'axios';
 import LoadingDishItem from '../Components/loadingDishItem';
 import { useNavigation } from '@react-navigation/native';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import AnimatedNumbers from 'react-native-animated-numbers';
 
 const RestaurantScreen = ({ route }) => {
   const navigation = useNavigation();
   const { restaurantPassed } = route.params;
+  // const orderQuery = useQuery({
+  //   queryKey: ['order'],
+  // });
   const [order, setOrder] = useState({
     items: [],
-    totalPrice: 0,
+    totalPrice: 0.0,
+    restaurantName: restaurantPassed.name,
+    restaurantId: restaurantPassed.id,
   });
-  const queryClient = useQueryClient();
-  const addItem = useMutation({
-    mutationFn: addItemToCart,
-    onSuccess: (data) => {
-      queryClient.setQueryData(['order'], data);
-      queryClient.invalidateQueries(['order'], { exact: true });
-    },
-  });
-  const removeItem = useMutation({
-    mutationFn: removeItemFromCart,
-    onSuccess: (data) => {
-      queryClient.setQueryData(['order'], data);
-      queryClient.invalidateQueries(['order'], { exact: true });
-    },
+  const formatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'ETB',
   });
   const [restaurant, setRestaurant] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -167,8 +162,8 @@ const RestaurantScreen = ({ route }) => {
                     key={index}
                     order={order}
                     dish={dish}
-                    addItem={addItem}
-                    removeItem={removeItem}
+                    addItem={addItemToCart}
+                    removeItem={removeItemFromCart}
                   />
                 ))}
           </View>
@@ -187,7 +182,7 @@ const RestaurantScreen = ({ route }) => {
           })}
         />
       </View>
-      <View className='absolute bottom-6 w-11/12 '>
+      <View className='absolute bottom-6 w-11/12'>
         <List.Item
           title='View cart'
           left={(props) => (
@@ -195,17 +190,32 @@ const RestaurantScreen = ({ route }) => {
               {...props}
               className='p-2 px-3 rounded-md bg-amber-700 shadow-inner'
             >
-              <Text className='text-base text-white'>{order.items.length}</Text>
+              <AnimatedNumbers
+                animateToNumber={order.items.length}
+                fontStyle={tw.style('text-lg text-white font-bold')}
+                animationDuration={500}
+              />
             </View>
           )}
           right={(props) => (
-            <Text {...props} className='text-xl font-extrabold text-white'>
-              {order.totalPrice} ETB
-            </Text>
+            <View {...props} className='my-auto flex flex-row'>
+              <Text className='text-xl font-extrabold text-white'>ETB </Text>
+              <AnimatedNumbers
+                includeComma
+                animateToNumber={order.totalPrice}
+                fontStyle={tw.style('text-xl font-extrabold text-white')}
+                animationDuration={500}
+              />
+            </View>
           )}
           style={tw.style('py-3 text-gray-700 mt-3 bg-amber-600 rounded-lg')}
           titleStyle={tw.style('text-white text-xl font-extrabold')}
-          onPress={() => console.log('')}
+          onPress={() =>
+            navigation.navigate('Cart', {
+              orderPassed: order,
+            })
+          }
+          disabled={!order.items.length}
         />
       </View>
     </View>
